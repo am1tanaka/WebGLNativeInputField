@@ -26,18 +26,18 @@
     }
     if( !document.getElementById("nativeInputDialog" ) ){
       // setup html
-      var html = '<div id="nativeInputDialog" style="background:#000000;opacity:0.9;width:100%;height:100%;position:fixed;top:0%;z-index:2147483647;">' + 
-               '  <div style="position:relative;top:30%;" align="center" vertical-align="middle">' + 
-               '    <div id="nativeInputDialogTitle" style="color:#ffffff;">Here is title</div>' + 
-               '    <div>' + 
-               '      <input id="nativeInputDialogInput" type="text" size="40" onsubmit="">' + 
-               '    </div>' + 
-               '    <div style="margin-top:10px">' + 
-               '      <input id="nativeInputDialogOkBtn" type="button" value="OK" onclick="" >' + 
-               '      <input id="nativeInputDialogCancelBtn" type="button" value="Cancel" onclick ="">' + 
-               '      <input id="nativeInputDialogCheck" type="checkBox" style="display:none;">' + 
-               '    </div>' + 
-               '  </div>' + 
+      var html = '<div id="nativeInputDialog" style="background:#000000;opacity:0.9;width:100%;height:100%;position:fixed;top:0%;z-index:2147483647;">' +
+               '  <div style="position:relative;top:30%;" align="center" vertical-align="middle">' +
+               '    <div id="nativeInputDialogTitle" style="color:#ffffff;">Here is title</div>' +
+               '    <div>' +
+               '      <input id="nativeInputDialogInput" type="text" size="40" onsubmit="">' +
+               '    </div>' +
+               '    <div style="margin-top:10px">' +
+               '      <input id="nativeInputDialogOkBtn" type="button" value="OK" onclick="" >' +
+               '      <input id="nativeInputDialogCancelBtn" type="button" value="Cancel" onclick ="">' +
+               '      <input id="nativeInputDialogCheck" type="checkBox" style="display:none;">' +
+               '    </div>' +
+               '  </div>' +
                '</div>';
       var element = document.createElement('div');
       element.innerHTML = html;
@@ -45,12 +45,12 @@
       document.body.appendChild( element );
 
       // set Event
-      var okFunction = 
-        'document.getElementById("nativeInputDialog" ).style.display = "none";' + 
+      var okFunction =
+        'document.getElementById("nativeInputDialog" ).style.display = "none";' +
         'document.getElementById("nativeInputDialogCheck").checked = false;' +
         'document.getElementById("canvas").style.display="";';
-      var cancelFunction = 
-        'document.getElementById("nativeInputDialog" ).style.display = "none";'+ 
+      var cancelFunction =
+        'document.getElementById("nativeInputDialog" ).style.display = "none";'+
         'document.getElementById("nativeInputDialogCheck").checked = true;'+
         'document.getElementById("canvas").style.display="";';
 
@@ -97,11 +97,12 @@
     if( inputField && inputField.value ){
       result = inputField.value;
     }
-    var buffer = _malloc(lengthBytesUTF8(result) + 1);
-    writeStringToMemory(result, buffer);
+    var size = lengthBytesUTF8(result) + 1;
+    var buffer = _malloc(size);
+    //writeStringToMemory(result, buffer);
+    stringToUTF8(result, buffer, size);
     return buffer;
   }
 
 };
 mergeInto( LibraryManager.library , WebNativeDialog );
-
