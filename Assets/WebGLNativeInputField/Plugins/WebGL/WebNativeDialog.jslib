@@ -18,11 +18,7 @@
     okBtnText = Pointer_stringify(okBtnText);
     cancelBtnText = Pointer_stringify(cancelBtnText);
 
-    unityInstance.Module.print("Setupoverlaydiallgo");
-    console.log("SetupOverlayDialogHtml");
-
     if( !document.getElementById("nativeInputDialogInput" ) ){
-        console.log("create style");
       // setup css
       var style = document.createElement( 'style' );
       style.setAttribute('id' , 'inputDialogTextSelect');
@@ -54,13 +50,13 @@
       var okFunction =
         'document.getElementById("nativeInputDialog" ).style.display = "none";' +
         'document.getElementById("nativeInputDialogCheck").checked = false;' +
-        'var cv=document.getElementById("#canvas");'+
-        'if (cv!=null) cv.style.display="";';
+        'var cn=document.getElementById("#canvas");'+
+        'if (cn)cn.style.display="";';
       var cancelFunction =
         'document.getElementById("nativeInputDialog" ).style.display = "none";'+
         'document.getElementById("nativeInputDialogCheck").checked = true;'+
-        'var cv=document.getElementById("#canvas");'+
-        'if (cv!=null) cv.style.display="";';
+        'var cn=document.getElementById("#canvas");'+
+        'if (cn)cn.style.display="";';
 
       var inputField = document.getElementById("nativeInputDialogInput");
       inputField.setAttribute( "onsubmit" , okFunction );
@@ -79,7 +75,7 @@
   HideUnityScreenIfHtmlOverlayCant:function(){
     if( navigator.userAgent.indexOf("Chrome/") < 0 ){
       var cv = document.getElementById("#canvas");
-      if (cv != null) cv.style.display="none";
+      if (cn) cn.style.display="none";
     }
   },
   IsRunningOnEdgeBrowser:function(){
