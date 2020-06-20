@@ -6,8 +6,10 @@
     if( !result ){
       result = defaultValue;
     }
-    var buffer = _malloc(lengthBytesUTF8(result) + 1);
-    writeStringToMemory(result, buffer);
+    var size = lengthBytesUTF8(result) + 1;
+    var buffer = _malloc(size);
+    //writeStringToMemory(result, buffer);
+    stringToUTF8(result, buffer, size);
     return buffer;
   },
   SetupOverlayDialogHtml:function(title,defaultValue,okBtnText,cancelBtnText){
@@ -16,7 +18,11 @@
     okBtnText = Pointer_stringify(okBtnText);
     cancelBtnText = Pointer_stringify(cancelBtnText);
 
+    unityInstance.Module.print("Setupoverlaydiallgo");
+    console.log("SetupOverlayDialogHtml");
+
     if( !document.getElementById("nativeInputDialogInput" ) ){
+        console.log("create style");
       // setup css
       var style = document.createElement( 'style' );
       style.setAttribute('id' , 'inputDialogTextSelect');
@@ -25,6 +31,7 @@
       document.head.appendChild( style );
     }
     if( !document.getElementById("nativeInputDialog" ) ){
+        console.log("create nativeinputdialog");
       // setup html
       var html = '<div id="nativeInputDialog" style="background:#000000;opacity:0.9;width:100%;height:100%;position:fixed;top:0%;z-index:2147483647;">' +
                '  <div style="position:relative;top:30%;" align="center" vertical-align="middle">' +
@@ -44,15 +51,36 @@
       // write to html
       document.body.appendChild( element );
 
+      if (document.getElementById("nativeInputDialog").style == null) {
+          console.log("style is null.");
+      }
+      else {
+          console.log("styel is ok");
+      }
+
       // set Event
       var okFunction =
+        'console.log("begin ok");'+
+        'var nid=document.getElementById("nativeInputDialog");'+
+        'if (nid == null) console.log("nativeInputDialog is null");'+
+        'else if (nid.style == null) console.log("ok style is null");'+
+        'else console.log("style ok");'+
         'document.getElementById("nativeInputDialog" ).style.display = "none";' +
         'document.getElementById("nativeInputDialogCheck").checked = false;' +
-        'document.getElementById("canvas").style.display="";';
+        'var cv=document.getElementById("#canvas");'+
+        'if (cv!=null) cv.style.display="";'+
+        'console.log("end ok");';
       var cancelFunction =
+        'console.log("begin cancel");'+
+        'var nid=document.getElementById("nativeInputDialog");'+
+        'if (nid == null) console.log("nativeInputDialog is null");'+
+        'else if (nid.style == null) console.log("ok style is null");'+
+        'else console.log("style ok");'+
         'document.getElementById("nativeInputDialog" ).style.display = "none";'+
         'document.getElementById("nativeInputDialogCheck").checked = true;'+
-        'document.getElementById("canvas").style.display="";';
+        'var cv=document.getElementById("#canvas");'+
+        'if (cv!=null) cv.style.display="";'+
+        'console.log("end cancel");';
 
       var inputField = document.getElementById("nativeInputDialogInput");
       inputField.setAttribute( "onsubmit" , okFunction );
@@ -64,13 +92,26 @@
     document.getElementById("nativeInputDialogTitle").innerText = title;
     document.getElementById("nativeInputDialogInput").value= defaultValue;
 
+    if (document.getElementById("nativeInputDialog").style == null) {
+        console.log("B style is null.");
+    }
+    else {
+        console.log("B style ok");
+    }
+
     document.getElementById("nativeInputDialogOkBtn").value = okBtnText;
     document.getElementById("nativeInputDialogCancelBtn").value = cancelBtnText;
     document.getElementById("nativeInputDialog" ).style.display = "";
   },
   HideUnityScreenIfHtmlOverlayCant:function(){
     if( navigator.userAgent.indexOf("Chrome/") < 0 ){
-      document.getElementById("canvas").style.display="none";
+        if (document.getElementById("nativeInputDialog").style == null) {
+            console.log("C style is null.");
+        }
+        else {
+            console.log("C style ok");
+        }
+      document.getElementById("#canvas").style.display="none";
     }
   },
   IsRunningOnEdgeBrowser:function(){
@@ -84,6 +125,14 @@
     if( !nativeDialog ){
       return false;
     }
+
+    if (document.getElementById("nativeInputDialog").style == null) {
+        console.log("D style is null.");
+    }
+    else {
+        console.log("D style ok");
+    }
+
     return ( nativeDialog.style.display != 'none' );
   },
   IsOverlayDialogHtmlCanceled:function(){
